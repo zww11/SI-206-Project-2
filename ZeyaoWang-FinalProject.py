@@ -125,12 +125,31 @@ def getDayDict(cur):
             result2['Sat'] += 1
     return result2
 
+# Calculate the email received each time of the day into 4 ranges
+def getTimeDict(cur):
+    cur.execute('SELECT DataOfSend FROM Email')
+    result = cur.fetchall()
+    result3 = {'12:00am - 5:59am':0, '6:00am - 11:59am':0, '12pm - 5:59pm':0, '6:00pm - 11:69':0}
+    for i in result:
+        weekday = int(i[0][16:18])
+        if 1 <= weekday <= 5:
+            result3['12:00am - 5:59am'] += 1
+        elif 6<= weekday <= 11:
+            result3['6:00am - 11:59am'] += 1
+        elif 12 <= weekday <= 17:
+            result3['12pm - 5:59pm'] += 1
+        elif 18 <= weekday <= 24:
+            result3['6:00pm - 11:69'] += 1
+    return result3
+
+
 # Export data to csv file
 def dictTocsv(diction):
     with open('ZeyaoWang-Part2_Report.csv','w') as f:
         w=csv.writer(f)
         w.writerow(diction.keys())
         w.writerow(diction.values())
+
 
 dictTocsv(getDayDict(cur))
 
@@ -141,7 +160,7 @@ dictTocsv(getDayDict(cur))
 # Suggestions of visualizations include comparing social media accesses on each day of the week, 
 # a google map with the locations of your Facebook friends, a Word Cloud, etc.
 
-# Draw a Bar Chart to show how much emails received each day of the week
+# Draw a Bar Chart to show how many emails received each day of the week
 def drawBarChart(dayDict):
     names = dayDict.keys()
     values = dayDict.values()
@@ -153,7 +172,20 @@ def drawBarChart(dayDict):
     plt.savefig("ZeyaoWang-Part3_Bar.png")
     plt.show()
 
+# Draw a Scatter Plot to show how many emails received each time of the day
+def drawPointPlot(dayDict):
+    names = dayDict.keys()
+    values = dayDict.values()
+
+    plt.plot(names, values, 'go-')
+    plt.title('The Number of Emails Received Each Time of the Day')
+    plt.xlabel('Time of the Day')
+    plt.ylabel('Number of Emails')
+    plt.savefig("ZeyaoWang-Part3_Point.png")
+    plt.show()
+
 drawBarChart(getDayDict(cur))
+drawPointPlot(getTimeDict(cur))
 
 
 
