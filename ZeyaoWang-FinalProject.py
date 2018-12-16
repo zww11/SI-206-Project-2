@@ -94,6 +94,8 @@ for da in dic:
 conn.commit()
 
 
+
+
 # PART 2 - Process Dsata
 # Calculate something from the data such as the number of items (posts, likes, etc) per day (Sunday, Monday, etc), 
 # the day with the most items, the day with the least items, and the average number of items per day.
@@ -131,6 +133,9 @@ def dictTocsv(diction):
         w.writerow(diction.values())
 
 dictTocsv(getDayDict(cur))
+
+
+
 
 # PART 3 - Plot Data
 # Suggestions of visualizations include comparing social media accesses on each day of the week, 
