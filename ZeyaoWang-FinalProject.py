@@ -150,8 +150,10 @@ def dictTocsv(diction):
         w.writerow(diction.keys())
         w.writerow(diction.values())
 
-
-dictTocsv(getDayDict(cur))
+dict1 = getDayDict(cur)
+dict2 = getTimeDict(cur)
+dictMerged2=dict(dict1, **dict2)
+dictTocsv(dictMerged2)
 
 
 
